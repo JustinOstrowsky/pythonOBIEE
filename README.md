@@ -27,15 +27,17 @@ pip install git+https://github.com/JustinOstrowsky/pythonOBIEE@v1.0.0#egg=python
 ### Export reports and save to disk
 
 ```py
-from pythonOBIEE import build_client, OBIEEsession, OBIEEAnalysisExporter, Report
+from getpass import getpass
+from pythonOBIEE import build_client, OBIEESession, OBIEEAnalysisExporter, Report
 
-# Set credentials
-username = "username"
-password = "password"
+# Get credentials
+username = input("Enter your username: ")
+password = getpass("Enter your password: ")
 
 # Set output folder
 output_folder = "/your/local/path"
 
+# Create our report objects
 reports = [
     Report("/shared/Report/Path/Report1", "CSV", output_folder),
     Report("/shared/Report/Path/Report2", "EXCEL2007", output_folder),
@@ -48,7 +50,7 @@ wsdl = "http://your-OBIEE-server/analytics-ws/saw.dll/wsdl/v10"
 client = build_client(wsdl)
 
 # Create session
-with OBIEEsession(client, username, password):
+with OBIEESession(client, username, password):
     # Create analysis exporter
     analysis_exporter = OBIEEAnalysisExporter(client)
 
@@ -63,14 +65,15 @@ with OBIEEsession(client, username, password):
 While this package does not directly allow you to export to a dataframe, you can get the exported file in memory, which you can then load with Pandas to a dataframe. You most likely want to export as a CSV for this use case.
 
 ```py
+from getpass import getpass
 import pandas as pd
-from pythonOBIEE import build_client, OBIEEsession, OBIEEAnalysisExporter, Report
+from pythonOBIEE import build_client, OBIEESession, OBIEEAnalysisExporter, Report
 
-# Set credentials
-username = "username"
-password = "password"
+# Get credentials
+username = input("Enter your username: ")
+password = getpass("Enter your password: ")
 
-# Set report
+# Create a Report object
 report = Report("/shared/Report/Path/Report1", "CSV")
 
 # WSDL URL
@@ -80,7 +83,7 @@ wsdl = "http://your-OBIEE-server/analytics-ws/saw.dll/wsdl/v10"
 client = build_client(wsdl)
 
 # Create session
-with OBIEEsession(client, username, password):
+with OBIEESession(client, username, password):
     # Create analysis exporter
     analysis_exporter = OBIEEAnalysisExporter(client)
 
@@ -89,8 +92,24 @@ with OBIEEsession(client, username, password):
     report_file, file_extension = analysis_exporter.export_to_file_like_object(report)
 
     df = pd.read_csv(report_file)
-    
+
     # Print the first few lines of the dataframe
     print(df.head())
+
+```
+
+### Logging
+
+pythonOBIEE supports logging. Setting the logging level to INFO provides useful detail. More detailed information is available at the DEBUG level.
+For DEBUG level logging, you will likely want to configure the log level specifically for pythonOBIEE to avoid flooding the console with messages from other modules.
+
+```py
+import logging
+
+# Set the general logging level to INFO
+logging.basicConfig(level=logging.INFO)
+
+# Set the logging level specifically for the pythonOBIEE module to DEBUG
+logging.getLogger("pythonOBIEE").setLevel(logging.DEBUG)
 
 ```
