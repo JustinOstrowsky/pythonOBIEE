@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pythonOBIEE",
-    version="0.8.1",
+    version="1.0.0",
     description="A Python package for working with OBIEE via the Web Services SOAP API",
     author="Justin Ostrowsky",
     packages=find_packages(),
