@@ -1,4 +1,9 @@
-<img src="assets/wordart.png" alt="WordArt Image" width="450"/> <!-- Adjust width as needed -->
+<p align="center">
+  <img src="assets/wordart.png" alt="WordArt Image" width="450"/> <!-- Adjust width as needed -->
+</p>
+
+
+## pythonOBIEE
 
 A Python package for working with Oracle Business Intelligence Enterprise Edition (OBIEE) via the Web Services SOAP API.
 
